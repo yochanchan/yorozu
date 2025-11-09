@@ -1,0 +1,29 @@
+:root {
+  --yorozu-accent: #1d4ed8;
+  --yorozu-accent-dark: #1e3a8a;
+  --yorozu-muted: #f1f5f9;
+}
+
+.yorozu-card {
+  border-radius: 1rem;
+  background: #fff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+.yorozu-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.yorozu-hero {
+  background: radial-gradient(
+      circle at top right,
+      rgba(59, 130, 246, 0.15),
+      transparent 40%
+    ),
+    rgba(255, 255, 255, 0.9);
+  border-radius: 1.5rem;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  box-shadow: 0 24px 50px rgba(30, 64, 175, 0.1);
+}
