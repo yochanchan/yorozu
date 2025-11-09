@@ -22,6 +22,10 @@ const years = [2024, 2025];
 const categoryOptions = ["全体", ...consultationCategories] as const;
 type CategoryFilter = (typeof categoryOptions)[number];
 
+const isCategoryFilter = (
+  value: CategoryFilter,
+): value is (typeof consultationCategories)[number] => value !== "全体";
+
 const HQDashboardPage = () => {
   const router = useRouter();
   const [selectedYear, setSelectedYear] = useState(2025);
@@ -64,9 +68,12 @@ const HQDashboardPage = () => {
   const filteredRows =
     categoryFilter === "全体"
       ? prefRows
-      : prefRows.filter(
-        (row) => (row.categoryShare[categoryFilter as string] ?? 0) > 0.16,
-      );
+      : prefRows.filter((row) => {
+        if (!isCategoryFilter(categoryFilter)) {
+          return true;
+        }
+        return (row.categoryShare[categoryFilter] ?? 0) > 0.16;
+      });
 
   const sortedRows = [...filteredRows].sort((a, b) => {
     const dir = sortDirection === "asc" ? 1 : -1;

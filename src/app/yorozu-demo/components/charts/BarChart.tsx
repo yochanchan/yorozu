@@ -29,7 +29,7 @@ export const SimpleBarChart = ({
   xTickAngle = 0,
 }: SimpleBarChartProps) => (
   <div className="w-full" style={{ height }}>
-    <ResponsiveContainer>
+    <ResponsiveContainer width="100%" height="100%">
       <RechartsBarChart data={data}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis
