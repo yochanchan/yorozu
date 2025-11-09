@@ -66,5 +66,5 @@ jobs:
         with:
           app-name: 'arima-cod-yorozu-demo-20251109'
           slot-name: 'Production'
-          package: .
+          package: ./deploy
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D40552C8B7D546E899816F1D4F5E75A0 }}
