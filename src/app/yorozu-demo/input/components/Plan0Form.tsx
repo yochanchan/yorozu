@@ -10,7 +10,13 @@ import {
   urgencyOptions,
 } from "../constants";
 import { ErrorSummaryItem, Plan0Draft } from "../hooks";
-import { ValidationErrors } from "../types";
+import {
+  EmployeesRange,
+  RevenueRange,
+  TimeHorizon,
+  Urgency,
+  ValidationErrors,
+} from "../types";
 
 type Plan0FormProps = {
   draft: Plan0Draft;
@@ -21,11 +27,11 @@ type Plan0FormProps = {
   onPrefectureChange: (value: string) => void;
   onIndustrySelectChange: (value: string) => void;
   onIndustryFreeChange: (value: string) => void;
-  onEmployeesRangeChange: (value: string) => void;
-  onRevenueRangeChange: (value: string) => void;
+  onEmployeesRangeChange: (value: EmployeesRange) => void;
+  onRevenueRangeChange: (value: RevenueRange) => void;
   onFoundedYearChange: (value: string) => void;
-  onTimeHorizonChange: (value: string) => void;
-  onUrgencyChange: (value: string) => void;
+  onTimeHorizonChange: (value: TimeHorizon) => void;
+  onUrgencyChange: (value: Urgency) => void;
   onToggleTheme: (themeId: string) => void;
   onToggleSpecializedTheme: (id: string) => void;
   isThemeDisabled: (themeId: string) => boolean;
@@ -192,7 +198,9 @@ export const Plan0Form = ({
           id="employeesRangeSelect"
           className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-base focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-100"
           value={draft.employeesRange}
-          onChange={(event) => onEmployeesRangeChange(event.target.value)}
+          onChange={(event) =>
+            onEmployeesRangeChange(event.target.value as EmployeesRange)
+          }
           aria-invalid={Boolean(errors.employeesRange)}
           aria-describedby={errors.employeesRange ? "employeesRange-error" : undefined}
         >
@@ -217,7 +225,9 @@ export const Plan0Form = ({
           id="revenueRangeSelect"
           className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-base focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-100"
           value={draft.revenueRange}
-          onChange={(event) => onRevenueRangeChange(event.target.value)}
+          onChange={(event) =>
+            onRevenueRangeChange(event.target.value as RevenueRange)
+          }
           aria-invalid={Boolean(errors.revenueRange)}
           aria-describedby={errors.revenueRange ? "revenueRange-error" : undefined}
         >
@@ -332,7 +342,9 @@ export const Plan0Form = ({
                   name="timeHorizon"
                   className="hidden"
                   checked={checked}
-                  onChange={() => onTimeHorizonChange(option.value)}
+                  onChange={() =>
+                    onTimeHorizonChange(option.value as TimeHorizon)
+                  }
                 />
                 {option.label}
               </label>
@@ -364,7 +376,7 @@ export const Plan0Form = ({
                   name="urgency"
                   className="hidden"
                   checked={checked}
-                  onChange={() => onUrgencyChange(option.value)}
+                  onChange={() => onUrgencyChange(option.value as Urgency)}
                 />
                 {option.label}
               </label>
