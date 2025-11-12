@@ -219,10 +219,14 @@ const Plan4Card = ({ plan0 }: { plan0: Plan0State }) => {
         <p className="text-sm text-slate-600">
           専門的な論点について、初回面談までに把握したいポイントを共有します。
         </p>
+        <p className="text-xs text-amber-700">
+          ※専門家アサインに時間を要するため、回答まで1〜3週間前後を目安にご調整ください。
+        </p>
         <ul className="space-y-2 text-sm text-slate-700">
           {selected.map((item) => (
             <li key={item.id} className="rounded-lg border border-slate-200 px-3 py-2">
               <p className="font-semibold text-slate-900">{item.label}</p>
+              <p className="text-[11px] font-medium text-amber-700">{item.waitEstimate}</p>
               <p className="text-xs text-slate-500">{item.description}</p>
             </li>
           ))}
