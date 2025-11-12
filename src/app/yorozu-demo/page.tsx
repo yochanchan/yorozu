@@ -24,6 +24,13 @@ const roles = [
     href: "/yorozu-demo/hq",
     accent: "#0ea5e9",
   },
+  {
+    title: "相談インプットを見る",
+    description:
+      "Plan0の入力とPlan1〜4・提案カードが即時に再描画されるデモ画面を確認できます。",
+    href: "/yorozu-demo/input",
+    accent: "#14b8a6",
+  },
 ];
 
 const DemoTopPage = () => (
