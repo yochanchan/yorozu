@@ -9,6 +9,7 @@ const navItems = [
   { href: "/yorozu-demo/branch", label: "拠点画面" },
   { href: "/yorozu-demo/hq", label: "全国本部" },
   { href: "/yorozu-demo/stories", label: "成功事例" },
+  { href: "/yorozu-demo/input", label: "相談インプット" },
 ];
 
 export const Header = () => {
