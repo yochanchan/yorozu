@@ -188,21 +188,25 @@ export const specializedThemes: SpecializedThemeDefinition[] = [
     id: "successionMa",
     label: "事業承継・M&A",
     description: "後継者候補の整理やM&Aの初期的な検討内容を共有します",
+    waitEstimate: "専門家調整：約2〜3週間",
   },
   {
     id: "globalExpansion",
     label: "海外・EC",
     description: "販路拡大や越境対応の準備資料を整えます",
+    waitEstimate: "専門家調整：約2週間",
   },
   {
     id: "subsidy",
     label: "補助金",
     description: "対象事業・スケジュールの整理と必要資料を確認します",
+    waitEstimate: "専門家調整：約1〜2週間",
   },
   {
     id: "itRefresh",
     label: "IT刷新",
     description: "現行システムと改善希望点の棚卸しを進めます",
+    waitEstimate: "専門家調整：約1〜1.5週間",
   },
 ];
 
