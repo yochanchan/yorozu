@@ -9,9 +9,16 @@ import {
   timeHorizonOptions,
   urgencyOptions,
 } from "../constants";
-import { Plan0Draft } from "../hooks";
-import { ErrorSummaryItem } from "../hooks";
-import { ValidationErrors } from "../types";
+import { ErrorSummaryItem, Plan0Draft } from "../hooks";
+import {
+  EmployeesRange,
+  RevenueRange,
+  SpecializedThemeId,
+  ThemeId,
+  TimeHorizon,
+  Urgency,
+  ValidationErrors,
+} from "../types";
 
 type Plan0FormProps = {
   draft: Plan0Draft;
@@ -22,14 +29,14 @@ type Plan0FormProps = {
   onPrefectureChange: (value: string) => void;
   onIndustrySelectChange: (value: string) => void;
   onIndustryFreeChange: (value: string) => void;
-  onEmployeesRangeChange: (value: string) => void;
-  onRevenueRangeChange: (value: string) => void;
+  onEmployeesRangeChange: (value: EmployeesRange) => void;
+  onRevenueRangeChange: (value: RevenueRange) => void;
   onFoundedYearChange: (value: string) => void;
-  onTimeHorizonChange: (value: string) => void;
-  onUrgencyChange: (value: string) => void;
-  onToggleTheme: (themeId: string) => void;
-  onToggleSpecializedTheme: (id: string) => void;
-  isThemeDisabled: (themeId: string) => boolean;
+  onTimeHorizonChange: (value: TimeHorizon) => void;
+  onUrgencyChange: (value: Urgency) => void;
+  onToggleTheme: (themeId: ThemeId) => void;
+  onToggleSpecializedTheme: (id: SpecializedThemeId) => void;
+  isThemeDisabled: (themeId: ThemeId) => boolean;
   notifyThemeLimit: () => void;
 };
 
@@ -78,7 +85,7 @@ export const Plan0Form = ({
     {errorSummary.length > 0 && (
       <div
         role="alert"
-        className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+        className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700"
       >
         <p className="font-semibold">入力内容をご確認ください。</p>
         <ul className="mt-2 space-y-1">
@@ -111,7 +118,7 @@ export const Plan0Form = ({
           aria-describedby={errors.companyName ? "companyName-error" : undefined}
         />
         {errors.companyName && (
-          <p id="companyName-error" className="text-sm text-red-600">
+          <p id="companyName-error" className="text-sm text-orange-600">
             {errors.companyName}
           </p>
         )}
@@ -136,7 +143,7 @@ export const Plan0Form = ({
           ))}
         </select>
         {errors.prefecture && (
-          <p id="prefecture-error" className="text-sm text-red-600">
+          <p id="prefecture-error" className="text-sm text-orange-600">
             {errors.prefecture}
           </p>
         )}
@@ -180,7 +187,7 @@ export const Plan0Form = ({
         </div>
       </div>
       {errors.industryGroup && (
-        <p className="text-sm text-red-600">{errors.industryGroup}</p>
+        <p className="text-sm text-orange-600">{errors.industryGroup}</p>
       )}
     </div>
 
@@ -193,7 +200,9 @@ export const Plan0Form = ({
           id="employeesRangeSelect"
           className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-base focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-100"
           value={draft.employeesRange}
-          onChange={(event) => onEmployeesRangeChange(event.target.value)}
+          onChange={(event) =>
+            onEmployeesRangeChange(event.target.value as EmployeesRange)
+          }
           aria-invalid={Boolean(errors.employeesRange)}
           aria-describedby={errors.employeesRange ? "employeesRange-error" : undefined}
         >
@@ -205,7 +214,7 @@ export const Plan0Form = ({
           ))}
         </select>
         {errors.employeesRange && (
-          <p id="employeesRange-error" className="text-sm text-red-600">
+          <p id="employeesRange-error" className="text-sm text-orange-600">
             {errors.employeesRange}
           </p>
         )}
@@ -218,7 +227,9 @@ export const Plan0Form = ({
           id="revenueRangeSelect"
           className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-base focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-100"
           value={draft.revenueRange}
-          onChange={(event) => onRevenueRangeChange(event.target.value)}
+          onChange={(event) =>
+            onRevenueRangeChange(event.target.value as RevenueRange)
+          }
           aria-invalid={Boolean(errors.revenueRange)}
           aria-describedby={errors.revenueRange ? "revenueRange-error" : undefined}
         >
@@ -230,7 +241,7 @@ export const Plan0Form = ({
           ))}
         </select>
         {errors.revenueRange && (
-          <p id="revenueRange-error" className="text-sm text-red-600">
+          <p id="revenueRange-error" className="text-sm text-orange-600">
             {errors.revenueRange}
           </p>
         )}
@@ -255,7 +266,7 @@ export const Plan0Form = ({
         aria-describedby={errors.foundedYear ? "foundedYear-error" : undefined}
       />
       {errors.foundedYear && (
-        <p id="foundedYear-error" className="text-sm text-red-600">
+        <p id="foundedYear-error" className="text-sm text-orange-600">
           {errors.foundedYear}
         </p>
       )}
@@ -307,7 +318,7 @@ export const Plan0Form = ({
         })}
       </div>
       {errors.themes && (
-        <p className="text-sm text-red-600">{errors.themes}</p>
+        <p className="text-sm text-orange-600">{errors.themes}</p>
       )}
     </div>
 
@@ -333,7 +344,9 @@ export const Plan0Form = ({
                   name="timeHorizon"
                   className="hidden"
                   checked={checked}
-                  onChange={() => onTimeHorizonChange(option.value)}
+                  onChange={() =>
+                    onTimeHorizonChange(option.value as TimeHorizon)
+                  }
                 />
                 {option.label}
               </label>
@@ -341,7 +354,7 @@ export const Plan0Form = ({
           })}
         </div>
         {errors.timeHorizon && (
-          <p className="text-sm text-red-600">{errors.timeHorizon}</p>
+          <p className="text-sm text-orange-600">{errors.timeHorizon}</p>
         )}
       </div>
       <div className="space-y-2" id="urgency">
@@ -365,7 +378,7 @@ export const Plan0Form = ({
                   name="urgency"
                   className="hidden"
                   checked={checked}
-                  onChange={() => onUrgencyChange(option.value)}
+                  onChange={() => onUrgencyChange(option.value as Urgency)}
                 />
                 {option.label}
               </label>
@@ -373,7 +386,7 @@ export const Plan0Form = ({
           })}
         </div>
         {errors.urgency && (
-          <p className="text-sm text-red-600">{errors.urgency}</p>
+          <p className="text-sm text-orange-600">{errors.urgency}</p>
         )}
       </div>
     </div>
@@ -382,6 +395,9 @@ export const Plan0Form = ({
       <h3 className="text-lg font-semibold text-slate-900">
         専門テーマ（任意・複数選択可）
       </h3>
+      <p className="text-sm text-slate-500">
+        高度な専門相談は担当者の調整に時間を要するため、回答まで1〜3週間程度を想定してください。
+      </p>
       <div className="grid gap-2 sm:grid-cols-2">
         {specializedThemeDefinitions.map((item) => {
           const checked = draft.specializedThemes.includes(item.id);
@@ -394,13 +410,18 @@ export const Plan0Form = ({
                   : "border-slate-200 bg-white text-slate-700"
               }`}
             >
-              <span className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={checked}
-                  onChange={() => onToggleSpecializedTheme(item.id)}
-                />
-                <span className="font-semibold">{item.label}</span>
+              <span className="flex items-start justify-between gap-2">
+                <span className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    onChange={() => onToggleSpecializedTheme(item.id)}
+                  />
+                  <span className="font-semibold">{item.label}</span>
+                </span>
+                <span className="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-[11px] font-medium text-amber-700">
+                  {item.waitEstimate}
+                </span>
               </span>
               <span className="text-xs text-slate-500">{item.description}</span>
             </label>
