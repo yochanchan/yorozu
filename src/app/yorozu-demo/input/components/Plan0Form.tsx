@@ -13,6 +13,8 @@ import { ErrorSummaryItem, Plan0Draft } from "../hooks";
 import {
   EmployeesRange,
   RevenueRange,
+  SpecializedThemeId,
+  ThemeId,
   TimeHorizon,
   Urgency,
   ValidationErrors,
@@ -32,9 +34,9 @@ type Plan0FormProps = {
   onFoundedYearChange: (value: string) => void;
   onTimeHorizonChange: (value: TimeHorizon) => void;
   onUrgencyChange: (value: Urgency) => void;
-  onToggleTheme: (themeId: string) => void;
-  onToggleSpecializedTheme: (id: string) => void;
-  isThemeDisabled: (themeId: string) => boolean;
+  onToggleTheme: (themeId: ThemeId) => void;
+  onToggleSpecializedTheme: (id: SpecializedThemeId) => void;
+  isThemeDisabled: (themeId: ThemeId) => boolean;
   notifyThemeLimit: () => void;
 };
 
