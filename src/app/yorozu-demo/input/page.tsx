@@ -27,7 +27,6 @@ const InputDemoPage = () => {
     derived,
     checklist,
     errors,
-    errorSummary,
     snackbar,
     liveMessage,
     industries,
@@ -85,7 +84,6 @@ const InputDemoPage = () => {
             draft={draft}
             industries={industries}
             errors={errors}
-            errorSummary={errorSummary}
             onCompanyNameChange={updateCompanyName}
             onPrefectureChange={updatePrefecture}
             onIndustrySelectChange={updateIndustrySelect}
@@ -126,7 +124,6 @@ const InputDemoPage = () => {
                   draft={draft}
                   industries={industries}
                   errors={errors}
-                  errorSummary={errorSummary}
                   onCompanyNameChange={updateCompanyName}
                   onPrefectureChange={updatePrefecture}
                   onIndustrySelectChange={updateIndustrySelect}
