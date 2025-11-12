@@ -34,6 +34,7 @@ export type SpecializedThemeDefinition = {
   id: SpecializedThemeId;
   label: string;
   description: string;
+  waitEstimate: string;
 };
 
 export type EmployeesRange = "0-10" | "11-50" | "51-300" | "300+" | "";
