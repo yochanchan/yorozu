@@ -169,25 +169,25 @@ export const RadarChart = ({ items, scores, threshold }: RadarChartProps) => {
             const labelX = center + Math.cos(angle) * labelRadius;
             const labelY = center + Math.sin(angle) * labelRadius;
             const score = scores[item.id] ?? 0;
-            const anchor: "middle" | "start" | "end" =
+            const anchor: React.SVGProps<SVGTextElement>["textAnchor"] =
               Math.abs(Math.cos(angle)) < 0.2
                 ? "middle"
                 : Math.cos(angle) > 0
                   ? "start"
                   : "end";
-            const baseline: "middle" | "hanging" | "baseline" =
+            const dominantBaseline: React.SVGProps<SVGTextElement>["dominantBaseline"] =
               Math.abs(Math.sin(angle)) < 0.2
                 ? "middle"
                 : Math.sin(angle) > 0
                   ? "hanging"
-                  : "baseline";
+                  : "alphabetic";
             return (
               <text
                 key={`label-${item.id}`}
                 x={labelX}
                 y={labelY}
                 textAnchor={anchor}
-                dominantBaseline={baseline}
+                dominantBaseline={dominantBaseline}
                 className={`text-sm font-semibold ${
                   score < threshold ? "fill-red-500" : "fill-slate-700"
                 }`}
