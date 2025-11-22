@@ -10,26 +10,32 @@ import {
   urgencyOptions,
 } from "../constants";
 import { Plan0Draft } from "../hooks";
-import { ErrorSummaryItem } from "../hooks";
-import { ValidationErrors } from "../types";
+import {
+  EmployeesRange,
+  RevenueRange,
+  SpecializedThemeId,
+  ThemeId,
+  TimeHorizon,
+  Urgency,
+  ValidationErrors,
+} from "../types";
 
 type Plan0FormProps = {
   draft: Plan0Draft;
   industries: string[];
   errors: ValidationErrors;
-  errorSummary: ErrorSummaryItem[];
   onCompanyNameChange: (value: string) => void;
   onPrefectureChange: (value: string) => void;
   onIndustrySelectChange: (value: string) => void;
   onIndustryFreeChange: (value: string) => void;
-  onEmployeesRangeChange: (value: string) => void;
-  onRevenueRangeChange: (value: string) => void;
+  onEmployeesRangeChange: (value: EmployeesRange) => void;
+  onRevenueRangeChange: (value: RevenueRange) => void;
   onFoundedYearChange: (value: string) => void;
-  onTimeHorizonChange: (value: string) => void;
-  onUrgencyChange: (value: string) => void;
-  onToggleTheme: (themeId: string) => void;
-  onToggleSpecializedTheme: (id: string) => void;
-  isThemeDisabled: (themeId: string) => boolean;
+  onTimeHorizonChange: (value: TimeHorizon) => void;
+  onUrgencyChange: (value: Urgency) => void;
+  onToggleTheme: (themeId: ThemeId) => void;
+  onToggleSpecializedTheme: (id: SpecializedThemeId) => void;
+  isThemeDisabled: (themeId: ThemeId) => boolean;
   notifyThemeLimit: () => void;
 };
 
@@ -47,7 +53,6 @@ export const Plan0Form = ({
   draft,
   industries,
   errors,
-  errorSummary,
   onCompanyNameChange,
   onPrefectureChange,
   onIndustrySelectChange,
@@ -75,27 +80,6 @@ export const Plan0Form = ({
       </p>
     </header>
 
-    {errorSummary.length > 0 && (
-      <div
-        role="alert"
-        className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
-      >
-        <p className="font-semibold">入力内容をご確認ください。</p>
-        <ul className="mt-2 space-y-1">
-          {errorSummary.map((item) => (
-            <li key={item.id}>
-              <a
-                href={`#${item.id}`}
-                className="underline-offset-2 hover:underline"
-              >
-                {item.message}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-    )}
-
     <div className="grid gap-4 md:grid-cols-2">
       <div className="space-y-2" id="companyName">
         <label className="text-sm font-medium text-slate-700" htmlFor="companyNameInput">
@@ -104,17 +88,15 @@ export const Plan0Form = ({
         <input
           id="companyNameInput"
           type="text"
-          className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-base focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-100"
+          className={`mt-1 w-full rounded-lg border px-3 py-2 text-base focus:outline-none focus:ring-2 ${
+            errors.companyName
+              ? "border-amber-400 bg-amber-50 focus:border-amber-500 focus:ring-amber-100"
+              : "border-slate-200 bg-white focus:border-blue-600 focus:ring-blue-100"
+          }`}
           value={draft.companyName}
           onChange={(event) => onCompanyNameChange(event.target.value)}
           aria-invalid={Boolean(errors.companyName)}
-          aria-describedby={errors.companyName ? "companyName-error" : undefined}
         />
-        {errors.companyName && (
-          <p id="companyName-error" className="text-sm text-red-600">
-            {errors.companyName}
-          </p>
-        )}
       </div>
       <div className="space-y-2" id="prefecture">
         <label className="text-sm font-medium text-slate-700" htmlFor="prefectureSelect">
@@ -122,11 +104,14 @@ export const Plan0Form = ({
         </label>
         <select
           id="prefectureSelect"
-          className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-base focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-100"
+          className={`mt-1 w-full rounded-lg border px-3 py-2 text-base focus:outline-none focus:ring-2 ${
+            errors.prefecture
+              ? "border-amber-400 bg-amber-50 focus:border-amber-500 focus:ring-amber-100"
+              : "border-slate-200 bg-white focus:border-blue-600 focus:ring-blue-100"
+          }`}
           value={draft.prefecture}
           onChange={(event) => onPrefectureChange(event.target.value)}
           aria-invalid={Boolean(errors.prefecture)}
-          aria-describedby={errors.prefecture ? "prefecture-error" : undefined}
         >
           <option value="">選択してください</option>
           {prefectureOptions.map((pref) => (
@@ -135,11 +120,6 @@ export const Plan0Form = ({
             </option>
           ))}
         </select>
-        {errors.prefecture && (
-          <p id="prefecture-error" className="text-sm text-red-600">
-            {errors.prefecture}
-          </p>
-        )}
       </div>
     </div>
 
@@ -151,7 +131,11 @@ export const Plan0Form = ({
           </label>
           <select
             id="industrySelect"
-            className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-base focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-100"
+            className={`mt-1 w-full rounded-lg border px-3 py-2 text-base focus:outline-none focus:ring-2 ${
+              errors.industryGroup
+                ? "border-amber-400 bg-amber-50 focus:border-amber-500 focus:ring-amber-100"
+                : "border-slate-200 bg-white focus:border-blue-600 focus:ring-blue-100"
+            }`}
             value={draft.industrySelect}
             onChange={(event) => onIndustrySelectChange(event.target.value)}
             aria-invalid={Boolean(errors.industryGroup)}
@@ -171,17 +155,18 @@ export const Plan0Form = ({
           <input
             id="industryFree"
             type="text"
-            className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-base focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-100"
+            className={`mt-1 w-full rounded-lg border px-3 py-2 text-base focus:outline-none focus:ring-2 ${
+              errors.industryGroup
+                ? "border-amber-400 bg-amber-50 focus:border-amber-500 focus:ring-amber-100"
+                : "border-slate-200 bg-white focus:border-blue-600 focus:ring-blue-100"
+            }`}
             value={draft.industryFree}
             onChange={(event) => onIndustryFreeChange(event.target.value)}
-            placeholder="例：精密部品の試作" 
+            placeholder="例：精密部品の試作"
             aria-invalid={Boolean(errors.industryGroup)}
           />
         </div>
       </div>
-      {errors.industryGroup && (
-        <p className="text-sm text-red-600">{errors.industryGroup}</p>
-      )}
     </div>
 
     <div className="grid gap-4 md:grid-cols-2">
@@ -191,11 +176,16 @@ export const Plan0Form = ({
         </label>
         <select
           id="employeesRangeSelect"
-          className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-base focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-100"
+          className={`mt-1 w-full rounded-lg border px-3 py-2 text-base focus:outline-none focus:ring-2 ${
+            errors.employeesRange
+              ? "border-amber-400 bg-amber-50 focus:border-amber-500 focus:ring-amber-100"
+              : "border-slate-200 bg-white focus:border-blue-600 focus:ring-blue-100"
+          }`}
           value={draft.employeesRange}
-          onChange={(event) => onEmployeesRangeChange(event.target.value)}
+          onChange={(event) =>
+            onEmployeesRangeChange(event.target.value as EmployeesRange)
+          }
           aria-invalid={Boolean(errors.employeesRange)}
-          aria-describedby={errors.employeesRange ? "employeesRange-error" : undefined}
         >
           <option value="">選択してください</option>
           {employeesRangeOptions.map((option) => (
@@ -204,11 +194,6 @@ export const Plan0Form = ({
             </option>
           ))}
         </select>
-        {errors.employeesRange && (
-          <p id="employeesRange-error" className="text-sm text-red-600">
-            {errors.employeesRange}
-          </p>
-        )}
       </div>
       <div className="space-y-2" id="revenueRange">
         <label className="text-sm font-medium text-slate-700" htmlFor="revenueRangeSelect">
@@ -216,11 +201,16 @@ export const Plan0Form = ({
         </label>
         <select
           id="revenueRangeSelect"
-          className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-base focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-100"
+          className={`mt-1 w-full rounded-lg border px-3 py-2 text-base focus:outline-none focus:ring-2 ${
+            errors.revenueRange
+              ? "border-amber-400 bg-amber-50 focus:border-amber-500 focus:ring-amber-100"
+              : "border-slate-200 bg-white focus:border-blue-600 focus:ring-blue-100"
+          }`}
           value={draft.revenueRange}
-          onChange={(event) => onRevenueRangeChange(event.target.value)}
+          onChange={(event) =>
+            onRevenueRangeChange(event.target.value as RevenueRange)
+          }
           aria-invalid={Boolean(errors.revenueRange)}
-          aria-describedby={errors.revenueRange ? "revenueRange-error" : undefined}
         >
           <option value="">選択してください</option>
           {revenueRangeOptions.map((option) => (
@@ -229,11 +219,6 @@ export const Plan0Form = ({
             </option>
           ))}
         </select>
-        {errors.revenueRange && (
-          <p id="revenueRange-error" className="text-sm text-red-600">
-            {errors.revenueRange}
-          </p>
-        )}
       </div>
     </div>
 
@@ -247,21 +232,24 @@ export const Plan0Form = ({
         inputMode="numeric"
         pattern="[0-9]*"
         maxLength={4}
-        className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-base focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-100"
+        className={`mt-1 w-full rounded-lg border px-3 py-2 text-base focus:outline-none focus:ring-2 ${
+          errors.foundedYear
+            ? "border-amber-400 bg-amber-50 focus:border-amber-500 focus:ring-amber-100"
+            : "border-slate-200 bg-white focus:border-blue-600 focus:ring-blue-100"
+        }`}
         value={draft.foundedYear}
         onChange={(event) => onFoundedYearChange(event.target.value)}
         placeholder="例：2005"
         aria-invalid={Boolean(errors.foundedYear)}
-        aria-describedby={errors.foundedYear ? "foundedYear-error" : undefined}
       />
-      {errors.foundedYear && (
-        <p id="foundedYear-error" className="text-sm text-red-600">
-          {errors.foundedYear}
-        </p>
-      )}
     </div>
 
-    <div className="space-y-3" id="themes">
+    <div
+      className={`space-y-3 ${
+        errors.themes ? "rounded-2xl ring-2 ring-amber-200 ring-offset-2 ring-offset-white" : ""
+      }`}
+      id="themes"
+    >
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold text-slate-900">
           今日相談したいテーマ（1〜3件）<RequiredMark />
@@ -306,13 +294,17 @@ export const Plan0Form = ({
           );
         })}
       </div>
-      {errors.themes && (
-        <p className="text-sm text-red-600">{errors.themes}</p>
-      )}
     </div>
 
     <div className="grid gap-4 md:grid-cols-2">
-      <div className="space-y-2" id="timeHorizon">
+      <div
+        className={`space-y-2 ${
+          errors.timeHorizon
+            ? "rounded-2xl ring-2 ring-amber-200 ring-offset-2 ring-offset-white"
+            : ""
+        }`}
+        id="timeHorizon"
+      >
         <p className="text-sm font-medium text-slate-700">
           時間軸<RequiredMark />
         </p>
@@ -333,18 +325,24 @@ export const Plan0Form = ({
                   name="timeHorizon"
                   className="hidden"
                   checked={checked}
-                  onChange={() => onTimeHorizonChange(option.value)}
+                  onChange={() =>
+                    onTimeHorizonChange(option.value as TimeHorizon)
+                  }
                 />
                 {option.label}
               </label>
             );
           })}
         </div>
-        {errors.timeHorizon && (
-          <p className="text-sm text-red-600">{errors.timeHorizon}</p>
-        )}
       </div>
-      <div className="space-y-2" id="urgency">
+      <div
+        className={`space-y-2 ${
+          errors.urgency
+            ? "rounded-2xl ring-2 ring-amber-200 ring-offset-2 ring-offset-white"
+            : ""
+        }`}
+        id="urgency"
+      >
         <p className="text-sm font-medium text-slate-700">
           緊急度<RequiredMark />
         </p>
@@ -365,16 +363,13 @@ export const Plan0Form = ({
                   name="urgency"
                   className="hidden"
                   checked={checked}
-                  onChange={() => onUrgencyChange(option.value)}
+                  onChange={() => onUrgencyChange(option.value as Urgency)}
                 />
                 {option.label}
               </label>
             );
           })}
         </div>
-        {errors.urgency && (
-          <p className="text-sm text-red-600">{errors.urgency}</p>
-        )}
       </div>
     </div>
 
@@ -382,6 +377,9 @@ export const Plan0Form = ({
       <h3 className="text-lg font-semibold text-slate-900">
         専門テーマ（任意・複数選択可）
       </h3>
+      <p className="text-sm text-slate-500">
+        高度な専門相談は担当者の調整に時間を要するため、回答まで1〜3週間程度を想定してください。
+      </p>
       <div className="grid gap-2 sm:grid-cols-2">
         {specializedThemeDefinitions.map((item) => {
           const checked = draft.specializedThemes.includes(item.id);
@@ -394,13 +392,18 @@ export const Plan0Form = ({
                   : "border-slate-200 bg-white text-slate-700"
               }`}
             >
-              <span className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={checked}
-                  onChange={() => onToggleSpecializedTheme(item.id)}
-                />
-                <span className="font-semibold">{item.label}</span>
+              <span className="flex items-start justify-between gap-2">
+                <span className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    onChange={() => onToggleSpecializedTheme(item.id)}
+                  />
+                  <span className="font-semibold">{item.label}</span>
+                </span>
+                <span className="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-[11px] font-medium text-amber-700">
+                  {item.waitEstimate}
+                </span>
               </span>
               <span className="text-xs text-slate-500">{item.description}</span>
             </label>

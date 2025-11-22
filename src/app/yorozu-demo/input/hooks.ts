@@ -26,7 +26,7 @@ import {
   ValidationErrors,
 } from "./types";
 
-type Plan0Draft = {
+export type Plan0Draft = {
   companyName: string;
   prefecture: string;
   industrySelect: string;
@@ -94,9 +94,9 @@ const validateDraft = (draft: Plan0Draft): ValidationErrors => {
   const errors: ValidationErrors = {};
   const name = draft.companyName.trim();
   if (!name) {
-    errors.companyName = "未入力です。2〜80文字で入力してください。";
+    errors.companyName = "2〜80文字の会社名をご入力ください。";
   } else if (name.length < 2 || name.length > 80) {
-    errors.companyName = "未入力です。2〜80文字で入力してください。";
+    errors.companyName = "2〜80文字の範囲で入力してください。";
   }
 
   if (!draft.prefecture) {
@@ -106,15 +106,15 @@ const validateDraft = (draft: Plan0Draft): ValidationErrors => {
   const hasIndustrySelect = !!draft.industrySelect;
   const hasIndustryFree = !!draft.industryFree.trim();
   if ((hasIndustrySelect && hasIndustryFree) || (!hasIndustrySelect && !hasIndustryFree)) {
-    errors.industryGroup = "業種は「選択」または「自由記述」のどちらか一方を入力してください。";
+    errors.industryGroup = "業種は「選択」または「自由記述」のどちらか一方をご入力ください。";
   }
 
   if (!draft.employeesRange) {
-    errors.employeesRange = "従業員数レンジを選択してください。";
+    errors.employeesRange = "従業員数レンジを選んでください。";
   }
 
   if (!draft.revenueRange) {
-    errors.revenueRange = "売上高レンジを選択してください。";
+    errors.revenueRange = "売上高レンジを選んでください。";
   }
 
   if (draft.foundedYear.trim()) {
@@ -124,7 +124,7 @@ const validateDraft = (draft: Plan0Draft): ValidationErrors => {
       numeric >= 1900 &&
       numeric <= currentYear;
     if (!isValid) {
-      errors.foundedYear = "1900〜今年の範囲で西暦4桁を入力してください。";
+      errors.foundedYear = "1900〜今年の西暦4桁で入力してください。";
     }
   }
 
@@ -133,11 +133,11 @@ const validateDraft = (draft: Plan0Draft): ValidationErrors => {
   }
 
   if (!draft.timeHorizon) {
-    errors.timeHorizon = "時間軸を選択してください。";
+    errors.timeHorizon = "希望する時間軸を選んでください。";
   }
 
   if (!draft.urgency) {
-    errors.urgency = "緊急度を選択してください。";
+    errors.urgency = "対応の優先度を選んでください。";
   }
 
   return errors;
@@ -647,4 +647,3 @@ export const useConsultationPlanner = () => {
   } as const;
 };
 
-export type { Plan0Draft, ErrorSummaryItem };
